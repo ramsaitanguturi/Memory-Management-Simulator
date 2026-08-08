@@ -1,0 +1,128 @@
+================================================================================
+                    OPERATING SYSTEM MEMORY MANAGEMENT REPORT
+================================================================================
+
+[MODULE 1: MEMORY CONFIGURATION]
+Total Physical Memory : 1024 KB
+Page / Frame Size     : 64 KB
+Total Frames          : 16
+Free Frames           : 12
+Allocated Frames      : 4
+Number of Processes   : 3
+
+[MODULE 2: PAGE TABLE FOR PROCESS P1]
++-------+-------+---------+
+| Page  | Frame | Valid   |
++-------+-------+---------+
+| 0     | 5     | Yes     |
+| 1     | 8     | Yes     |
+| 2     | 1     | Yes     |
+| 3     | 10    | Yes     |
++-------+-------+---------+
+
+[MODULE 3: SEGMENT TABLE FOR PROCESS P1]
++---------+-----------------+--------------+--------------+
+| Segment | Name            | Base Address | Limit (Size) |
++---------+-----------------+--------------+--------------+
+| 0       | Code Segment    | 1000         | 500          |
+| 1       | Data Segment    | 2000         | 300          |
+| 2       | Stack Segment   | 3000         | 700          |
++---------+-----------------+--------------+--------------+
+
+[MODULE 4 & 5: PAGE REPLACEMENT STEP TRACES]
+Reference String: 7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1 7 0 1 
+Allocated Replacement Frames: 3
+
+--- FIFO Page Replacement ---
++------+------+---------------------+------------+
+| Step | Page | Physical Frames     | Page Fault |
++------+------+---------------------+------------+
+| 1    | 7    | [ 7 - - ] | Yes        |
+| 2    | 0    | [ 7 0 - ] | Yes        |
+| 3    | 1    | [ 7 0 1 ] | Yes        |
+| 4    | 2    | [ 2 0 1 ] | Yes (Evict 7)|
+| 5    | 0    | [ 2 0 1 ] | No (Hit)   |
+| 6    | 3    | [ 2 3 1 ] | Yes (Evict 0)|
+| 7    | 0    | [ 2 3 0 ] | Yes (Evict 1)|
+| 8    | 4    | [ 4 3 0 ] | Yes (Evict 2)|
+| 9    | 2    | [ 4 2 0 ] | Yes (Evict 3)|
+| 10   | 3    | [ 4 2 3 ] | Yes (Evict 0)|
+| 11   | 0    | [ 0 2 3 ] | Yes (Evict 4)|
+| 12   | 3    | [ 0 2 3 ] | No (Hit)   |
+| 13   | 2    | [ 0 2 3 ] | No (Hit)   |
+| 14   | 1    | [ 0 1 3 ] | Yes (Evict 2)|
+| 15   | 2    | [ 0 1 2 ] | Yes (Evict 3)|
+| 16   | 0    | [ 0 1 2 ] | No (Hit)   |
+| 17   | 1    | [ 0 1 2 ] | No (Hit)   |
+| 18   | 7    | [ 7 1 2 ] | Yes (Evict 0)|
+| 19   | 0    | [ 7 0 2 ] | Yes (Evict 1)|
+| 20   | 1    | [ 7 0 1 ] | Yes (Evict 2)|
++------+------+---------------------+------------+
+Total Faults: 15 | Total Hits: 5 | Hit Ratio: 25.00%
+
+--- LRU Page Replacement ---
++------+------+---------------------+------------+
+| Step | Page | Physical Frames     | Page Fault |
++------+------+---------------------+------------+
+| 1    | 7    | [ 7 - - ] | Yes        |
+| 2    | 0    | [ 7 0 - ] | Yes        |
+| 3    | 1    | [ 7 0 1 ] | Yes        |
+| 4    | 2    | [ 2 0 1 ] | Yes (Evict 7)|
+| 5    | 0    | [ 2 0 1 ] | No (Hit)   |
+| 6    | 3    | [ 2 0 3 ] | Yes (Evict 1)|
+| 7    | 0    | [ 2 0 3 ] | No (Hit)   |
+| 8    | 4    | [ 4 0 3 ] | Yes (Evict 2)|
+| 9    | 2    | [ 4 0 2 ] | Yes (Evict 3)|
+| 10   | 3    | [ 4 3 2 ] | Yes (Evict 0)|
+| 11   | 0    | [ 0 3 2 ] | Yes (Evict 4)|
+| 12   | 3    | [ 0 3 2 ] | No (Hit)   |
+| 13   | 2    | [ 0 3 2 ] | No (Hit)   |
+| 14   | 1    | [ 1 3 2 ] | Yes (Evict 0)|
+| 15   | 2    | [ 1 3 2 ] | No (Hit)   |
+| 16   | 0    | [ 1 0 2 ] | Yes (Evict 3)|
+| 17   | 1    | [ 1 0 2 ] | No (Hit)   |
+| 18   | 7    | [ 1 0 7 ] | Yes (Evict 2)|
+| 19   | 0    | [ 1 0 7 ] | No (Hit)   |
+| 20   | 1    | [ 1 0 7 ] | No (Hit)   |
++------+------+---------------------+------------+
+Total Faults: 12 | Total Hits: 8 | Hit Ratio: 40.00%
+
+--- Optimal Page Replacement ---
++------+------+---------------------+------------+
+| Step | Page | Physical Frames     | Page Fault |
++------+------+---------------------+------------+
+| 1    | 7    | [ 7 - - ] | Yes        |
+| 2    | 0    | [ 7 0 - ] | Yes        |
+| 3    | 1    | [ 7 0 1 ] | Yes        |
+| 4    | 2    | [ 2 0 1 ] | Yes (Evict 7)|
+| 5    | 0    | [ 2 0 1 ] | No (Hit)   |
+| 6    | 3    | [ 2 0 3 ] | Yes (Evict 1)|
+| 7    | 0    | [ 2 0 3 ] | No (Hit)   |
+| 8    | 4    | [ 2 4 3 ] | Yes (Evict 0)|
+| 9    | 2    | [ 2 4 3 ] | No (Hit)   |
+| 10   | 3    | [ 2 4 3 ] | No (Hit)   |
+| 11   | 0    | [ 2 0 3 ] | Yes (Evict 4)|
+| 12   | 3    | [ 2 0 3 ] | No (Hit)   |
+| 13   | 2    | [ 2 0 3 ] | No (Hit)   |
+| 14   | 1    | [ 2 0 1 ] | Yes (Evict 3)|
+| 15   | 2    | [ 2 0 1 ] | No (Hit)   |
+| 16   | 0    | [ 2 0 1 ] | No (Hit)   |
+| 17   | 1    | [ 2 0 1 ] | No (Hit)   |
+| 18   | 7    | [ 7 0 1 ] | Yes (Evict 2)|
+| 19   | 0    | [ 7 0 1 ] | No (Hit)   |
+| 20   | 1    | [ 7 0 1 ] | No (Hit)   |
++------+------+---------------------+------------+
+Total Faults: 9 | Total Hits: 11 | Hit Ratio: 55.00%
+
+[MODULE 6: ALGORITHM PERFORMANCE COMPARISON]
++------------------+-------------+------------+---------------+-----------------+
+| Algorithm        | Page Faults | Page Hits  | Hit Ratio (%) | Fault Ratio (%) |
++------------------+-------------+------------+---------------+-----------------+
+| FIFO             | 15          | 5          | 25.00         | 75.00           |
+| LRU              | 12          | 8          | 40.00         | 60.00           |
+| Optimal          | 9           | 11         | 55.00         | 45.00           |
++------------------+-------------+------------+---------------+-----------------+
+
+SUMMARY CONCLUSION:
+Best Algorithm: Optimal with 9 page faults (Hit Ratio: 55.00%)
+================================================================================

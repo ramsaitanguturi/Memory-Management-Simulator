@@ -1,0 +1,13 @@
+# Memory Management Simulator - Configuration Input File
+
+# Total physical memory in KB
+Memory Size: 1024
+
+# Page size in KB
+Page Size: 64
+
+# Number of active processes
+Number of Processes: 3
+
+# Reference string for page replacement algorithms
+Reference String: 7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1 7 0 1
